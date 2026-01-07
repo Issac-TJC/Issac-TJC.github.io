@@ -1,93 +1,431 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240412115205897.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="Hexo"><meta property="og:url" content="http://example.com/"><meta property="og:site_name" content="Hexo"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:author" content="John Doe"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com"},"headline":"Hexo","image":["http://example.com/img/og_image.png"],"author":{"@type":"Person","name":"John Doe"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240411165736848.png"}},"description":""}</script><link rel="icon" href="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240412115205897.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
-  (function () {
-      function switchTab() {
-          if (!location.hash) {
-            return;
-          }
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <!-- Tailwind CSS (用于样式) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Marked.js (用于Markdown编译) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Font Awesome (用于图标) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 自定义字体与平滑滚动 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f9fafb; /* 极淡的灰白背景 */
+            color: #1f2937;
+        }
 
-          const id = '#' + CSS.escape(location.hash.substring(1));
-          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
-          if (!$tabMenu) {
-            return;
-          }
+        /* Markdown 内容样式覆盖 */
+        .markdown-body h1 { font-size: 2em; font-weight: 700; margin-bottom: 0.5em; margin-top: 1em; }
+        .markdown-body h2 { font-size: 1.5em; font-weight: 600; margin-bottom: 0.5em; margin-top: 1em; }
+        .markdown-body p { margin-bottom: 1em; line-height: 1.7; color: #374151; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
+        .markdown-body pre { background: #1f2937; color: #e5e7eb; padding: 1em; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1em; }
+        .markdown-body code { background: #e5e7eb; color: #c02a35; padding: 0.2em 0.4em; border-radius: 0.25rem; font-size: 0.9em; }
+        .markdown-body pre code { background: transparent; color: inherit; padding: 0; }
+        .markdown-body blockquote { border-left: 4px solid #e5e7eb; padding-left: 1em; color: #6b7280; font-style: italic; }
+        .markdown-body img { border-radius: 0.5rem; max-width: 100%; margin: 1em 0; }
+        .markdown-body a { color: #2563eb; text-decoration: underline; }
 
-          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
-          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
-          Array.from($tabMenuContainer.querySelectorAll('a'))
-              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
-              .forEach($content => $content.classList.add('is-hidden'));
+        /* 动画效果 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-          if ($tabMenu) {
-              $tabMenu.parentElement.classList.add('is-active');
-          }
-          const $activeTab = document.querySelector(id);
-          if ($activeTab) {
-              $activeTab.classList.remove('is-hidden');
-          }
-      }
-      switchTab();
-      window.addEventListener('hashchange', switchTab, false);
-  })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240411165736848.png" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item is-active" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-lightbulb" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-11T07:57:47.159Z" title="2024/4/11 15:57:47">2024-04-11</time></span><span class="level-item">Updated&nbsp;<time dateTime="2024-04-12T04:06:59.841Z" title="2024/4/12 12:06:59">2024-04-12</time></span><span class="level-item">a few seconds read (About 93 words)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/04/11/INTRODUCE%20MYSELF/">self introduction</a></p><div class="content"><h1 id="INTRODUCE-MYSELF"><a href="#INTRODUCE-MYSELF" class="headerlink" title="INTRODUCE MYSELF"></a>INTRODUCE MYSELF</h1><p><img src="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240412115056757.png" alt="logo"></p>
-<p>MY NAME IS JUNCHENG TAO, ISSAC. </p>
-<p>I am an undergraduate student from Sun Yat-sen University. My current area of interest lies in utilizing deep learning or large model approaches to tackle computer vision or multimodal problems related to computer vision. This account is primarily used to manage my personal webpage, upload some of my course designs, and showcase some of my personal project achievements.</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240411165736848.png" alt="logo2"></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-10T16:42:40.012Z" title="2024/4/11 00:42:40">2024-04-11</time></span><span class="level-item">Updated&nbsp;<time dateTime="2024-04-10T15:33:31.140Z" title="2024/4/10 23:33:31">2024-04-10</time></span><span class="level-item">a minute read (About 123 words)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/04/11/hello-world/">Hello World</a></p><div class="content"><p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+    <!-- 主容器 -->
+    <div id="app" class="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- 页面 1: 个人主页概览 -->
+        <div id="home-view" class="fade-in space-y-12">
+            
+            <!-- 个人简介模块 -->
+            <header class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-8 border-b border-gray-200 pb-10">
+                <div class="relative group">
+                    <img id="avatar-img" src="" alt="Avatar" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg border-4 border-white">
+                    <div class="absolute inset-0 rounded-full border border-black/5"></div>
+                </div>
+                <div class="flex-1 space-y-4">
+                    <h1 id="profile-name" class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900"></h1>
+                    <p id="profile-bio" class="text-lg text-gray-600 max-w-2xl leading-relaxed"></p>
+                    
+                    <!-- 社交链接 -->
+                    <div id="social-links" class="flex justify-center md:justify-start gap-4 pt-2">
+                        <!-- JS 动态注入 -->
+                    </div>
+                </div>
+            </header>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+            <!-- 项目/文章列表模块 -->
+            <section>
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">精选项目 & 文章</h2>
+                    <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Works</span>
+                </div>
+                
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 项目卡片由 JS 生成 -->
+                </div>
+            </section>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+            <footer class="text-center text-gray-400 text-sm py-8 border-t border-gray-100 mt-12">
+                <p>&copy; <span id="year"></span> Designed by You.</p>
+            </footer>
+        </div>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-</div></article></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240412115056757.png" alt="Juncheng Tao"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Juncheng Tao</p><p class="is-size-6 is-block">Issac</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>SYSU in Guangzhou China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">2</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">0</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">0</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><!--!--><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-11T07:57:47.159Z">2024-04-11</time></p><p class="title"><a href="/2024/04/11/INTRODUCE%20MYSELF/">self introduction</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-10T16:42:40.012Z">2024-04-11</time></p><p class="title"><a href="/2024/04/11/hello-world/">Hello World</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div><!--!--><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget"><div class="card-content"><div class="notification is-danger">You need to set <code>client_id</code> and <code>slot_id</code> to show this AD unit. Please set it in <code>_config.yml</code>.</div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://cdn.jsdelivr.net/gh/Issac-TJC/blog-pic@master/image-20240411165736848.png" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2024 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
-            article: {
-                highlight: {
-                    clipboard: true,
-                    fold: 'unfolded'
-                }
+        <!-- 页面 2: 文章详情页 (默认隐藏) -->
+        <div id="detail-view" class="hidden fade-in pb-20">
+            <!-- 顶部导航 -->
+            <div class="sticky top-0 bg-[#f9fafb]/95 backdrop-blur-sm z-10 py-4 mb-8 border-b border-gray-200 flex items-center justify-between">
+                <button onclick="goHome()" class="group flex items-center gap-2 text-gray-600 hover:text-black transition-colors">
+                    <div class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-gray-400">
+                        <i class="fa-solid fa-arrow-left text-sm"></i>
+                    </div>
+                    <span class="font-medium">返回主页</span>
+                </button>
+                <div class="flex gap-2">
+                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200" title="Share" onclick="copyLink()">
+                        <i class="fa-solid fa-share-nodes text-gray-600 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 文章内容 -->
+            <article class="bg-white rounded-2xl shadow-sm p-6 md:p-10 mb-10 border border-gray-100">
+                <div class="mb-8">
+                    <span id="detail-category" class="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">Category</span>
+                    <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"></h1>
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <span id="detail-date"><i class="far fa-calendar-alt mr-1"></i> </span>
+                        <span><i class="far fa-clock mr-1"></i> 阅读需 5 分钟</span>
+                    </div>
+                    <img id="detail-image" src="" class="w-full h-64 md:h-96 object-cover rounded-xl mt-6 shadow-md" alt="Cover">
+                </div>
+                
+                <!-- Markdown 渲染区域 -->
+                <div id="detail-content" class="markdown-body">
+                    <!-- Markdown 编译后的 HTML 将在这里 -->
+                </div>
+
+                <!-- 外部链接按钮 -->
+                <div class="mt-10 pt-6 border-t border-gray-100">
+                    <a id="detail-link" href="#" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
+                        访问项目/页面 <i class="fa-solid fa-external-link-alt text-xs"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 评论区 -->
+            <section class="bg-white rounded-2xl shadow-sm p-6 md:p-10 border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <i class="fa-regular fa-comments"></i> 评论区
+                </h3>
+                
+                <!-- 评论列表 -->
+                <div id="comments-list" class="space-y-6 mb-8">
+                    <!-- 评论由 JS 生成 -->
+                    <div class="text-center text-gray-400 py-4">暂无评论，快来抢沙发吧！</div>
+                </div>
+
+                <!-- 发表评论表单 -->
+                <div class="bg-gray-50 rounded-xl p-4 md:p-6">
+                    <h4 class="text-sm font-bold text-gray-700 mb-3">发表评论</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                        <input id="comment-name" type="text" placeholder="昵称 *" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        <input id="comment-email" type="email" placeholder="邮箱 (可选，仅用于生成头像)" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                    </div>
+                    <textarea id="comment-body" rows="3" placeholder="写下你的想法..." class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none mb-3"></textarea>
+                    <div class="flex justify-end">
+                        <button onclick="submitComment()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                            发送评论
+                        </button>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 mt-4 text-center">注意：本演示使用浏览器本地存储，清除缓存后评论会消失。</p>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- 逻辑脚本 -->
+    <script>
+        // ================= 配置区域 (在此处修改你的信息) =================
+
+        const profileData = {
+            name: "Alex Dev", // 你的名字
+            bio: "全栈开发者 / 游戏爱好者 / 开源贡献者。<br>热爱创造简洁而有用的工具，探索 Web 技术的边界。", // 你的简介
+            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 头像URL
+            socials: [
+                { icon: "fa-brands fa-github", url: "https://github.com/yourusername" },
+                { icon: "fa-brands fa-twitter", url: "#" },
+                { icon: "fa-solid fa-envelope", url: "mailto:your@email.com" }
+            ]
+        };
+
+        // 项目与文章数据 (Markdown 支持)
+        const postsData = [
+            {
+                id: 1,
+                title: "Unity 独立游戏开发日志",
+                category: "Game Dev",
+                date: "2023-10-15",
+                desc: "探索像素风 Rogue-like 游戏的程序化地图生成算法与实现细节。",
+                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+                link: "https://github.com",
+                // 在这里写 Markdown 内容
+                content: `
+### 地图生成的挑战
+在制作这款 Rogue-like 游戏时，最大的挑战是如何保证随机生成的地图既具有**探索性**又**不会产生死路**。
+
+我们采用了 **元胞自动机 (Cellular Automata)** 算法来进行洞穴生成。
+
+#### 核心代码片段
+\`\`\`csharp
+void GenerateCaves() {
+    // 初始化网格
+    // 迭代平滑处理
+    for (int i = 0; i < 5; i++) {
+        SmoothMap();
+    }
+}
+\`\`\`
+
+#### 视觉风格
+为了配合复古风格，我们使用了 16x16 的像素图块，并实现了动态光照系统。
+                `
+            },
+            {
+                id: 2,
+                title: "React 极简待办事项 App",
+                category: "Web App",
+                date: "2023-09-20",
+                desc: "一个专注于交互体验的 Todo 应用，支持拖拽排序与本地持久化存储。",
+                image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+                link: "#",
+                content: `
+### 设计理念
+市面上的 Todo 应用太复杂了。我想做一个只有**添加**、**完成**和**删除**的应用。
+
+- **React 18**: 利用最新的并发特性。
+- **Tailwind CSS**: 快速构建响应式界面。
+- **Framer Motion**: 添加丝滑的动画效果。
+
+> "简单是终极的复杂。" - 达·芬奇
+
+你可以在这里试用 Demo 版本...
+                `
+            },
+            {
+                id: 3,
+                title: "摄影集：城市的角落",
+                category: "Photography",
+                date: "2023-08-05",
+                desc: "记录那些在快节奏生活中被忽略的静谧瞬间。",
+                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+                link: "#",
+                content: `
+### 凌晨四点的街道
+这时候城市还没有醒来，只有路灯和偶尔驶过的出租车。
+
+![Street](https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)
+
+拍摄参数：
+* Camera: Sony A7III
+* Lens: 35mm f/1.4
+* ISO: 1600
+                `
             }
-        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
-      window.cookieconsent.initialise({
-        type: "info",
-        theme: "edgeless",
-        static: false,
-        position: "bottom-left",
-        content: {
-          message: "This website uses cookies to improve your experience.",
-          dismiss: "Got it!",
-          allow: "Allow cookies",
-          deny: "Decline",
-          link: "Learn more",
-          policy: "Cookie Policy",
-          href: "https://www.cookiesandyou.com/",
-        },
-        palette: {
-          popup: {
-            background: "#edeff5",
-            text: "#838391"
-          },
-          button: {
-            background: "#4b81e8"
-          },
-        },
-      });
-    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
-            if (typeof $.fn.lightGallery === 'function') {
-                $('.article').lightGallery({ selector: '.gallery-item' });
+        ];
+
+        // ================= 核心逻辑 =================
+
+        let currentPostId = null;
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProfile();
+            renderProjectsList();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+        // 渲染个人信息
+        function renderProfile() {
+            document.getElementById('profile-name').textContent = profileData.name;
+            document.getElementById('profile-bio').innerHTML = profileData.bio;
+            document.getElementById('avatar-img').src = profileData.avatar;
+            
+            const socialContainer = document.getElementById('social-links');
+            profileData.socials.forEach(social => {
+                const a = document.createElement('a');
+                a.href = social.url;
+                a.className = "text-gray-400 hover:text-gray-900 transition-colors text-2xl";
+                a.innerHTML = `<i class="${social.icon}"></i>`;
+                socialContainer.appendChild(a);
+            });
+        }
+
+        // 渲染项目列表卡片
+        function renderProjectsList() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = '';
+            
+            postsData.forEach(post => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer card-hover flex flex-col h-full";
+                card.onclick = () => openArticle(post.id);
+                
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm">
+                            ${post.category}
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-1">${post.title}</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-1 line-clamp-3">${post.desc}</p>
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                            <span class="text-xs text-gray-400">${post.date}</span>
+                            <span class="text-blue-600 text-sm font-medium flex items-center gap-1 group">
+                                阅读更多 <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 打开文章详情
+        function openArticle(id) {
+            const post = postsData.find(p => p.id === id);
+            if (!post) return;
+
+            currentPostId = id;
+
+            // 填充内容
+            document.getElementById('detail-title').textContent = post.title;
+            document.getElementById('detail-category').textContent = post.category;
+            document.getElementById('detail-date').innerHTML = `<i class="far fa-calendar-alt mr-1"></i> ${post.date}`;
+            document.getElementById('detail-image').src = post.image;
+            document.getElementById('detail-link').href = post.link;
+            
+            // Markdown 编译
+            document.getElementById('detail-content').innerHTML = marked.parse(post.content);
+
+            // 切换视图
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+            
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+
+            // 加载评论
+            loadComments(id);
+        }
+
+        // 返回主页
+        function goHome() {
+            document.getElementById('detail-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+            currentPostId = null;
+        }
+
+        function copyLink() {
+            // 简单模拟复制功能
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('链接已复制到剪贴板');
+            });
+        }
+
+        // ================= 评论系统 (LocalStorage 实现) =================
+        // 注意：这是前端模拟。如果需要真正的后端，建议接入 Giscus。
+
+        function getStorageKey(postId) {
+            return `comments_post_${postId}`;
+        }
+
+        function loadComments(postId) {
+            const list = document.getElementById('comments-list');
+            const comments = JSON.parse(localStorage.getItem(getStorageKey(postId)) || '[]');
+            
+            list.innerHTML = '';
+
+            if (comments.length === 0) {
+                list.innerHTML = `<div class="text-center text-gray-400 py-4 bg-gray-50 rounded-lg">还没有评论，来做第一个发言的人吧！</div>`;
+                return;
             }
-            if (typeof $.fn.justifiedGallery === 'function') {
-                if ($('.justified-gallery > p > .gallery-item').length) {
-                    $('.justified-gallery > p > .gallery-item').unwrap();
-                }
-                $('.justified-gallery').justifiedGallery();
+
+            comments.forEach(c => {
+                // 生成随机头像背景色
+                const colors = ['bg-red-100 text-red-600', 'bg-blue-100 text-blue-600', 'bg-green-100 text-green-600', 'bg-yellow-100 text-yellow-600'];
+                const colorClass = colors[Math.floor(Math.random() * colors.length)];
+                
+                const div = document.createElement('div');
+                div.className = "flex gap-4 fade-in";
+                div.innerHTML = `
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full ${colorClass} flex items-center justify-center font-bold text-sm">
+                        ${c.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h5 class="font-bold text-gray-900 text-sm">${c.name}</h5>
+                            <span class="text-xs text-gray-400">${c.date}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm leading-relaxed bg-gray-50 p-3 rounded-br-xl rounded-bl-xl rounded-tr-xl">${c.body}</p>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function submitComment() {
+            const nameInput = document.getElementById('comment-name');
+            const emailInput = document.getElementById('comment-email');
+            const bodyInput = document.getElementById('comment-body');
+
+            const name = nameInput.value.trim();
+            const body = bodyInput.value.trim();
+
+            if (!name || !body) {
+                alert('请填写昵称和评论内容');
+                return;
             }
-        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/night.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
-            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
-        });</script></body></html>
+
+            const newComment = {
+                id: Date.now(),
+                name: name,
+                email: emailInput.value.trim(),
+                body: body,
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+            };
+
+            const key = getStorageKey(currentPostId);
+            const comments = JSON.parse(localStorage.getItem(key) || '[]');
+            comments.unshift(newComment); // 新评论在最前
+            localStorage.setItem(key, JSON.stringify(comments));
+
+            // 清空表单并重新加载
+            nameInput.value = '';
+            emailInput.value = '';
+            bodyInput.value = '';
+            loadComments(currentPostId);
+        }
+
+    </script>
+</body>
+</html>
