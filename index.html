@@ -4,80 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的个人主页</title>
-    <!-- Tailwind CSS (用于样式) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Marked.js (用于Markdown编译) -->
+    <!-- Marked.js (Markdown 解析) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Font Awesome (用于图标) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* 自定义字体与平滑滚动 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
         
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f9fafb; /* 极淡的灰白背景 */
+            background-color: #f9fafb;
             color: #1f2937;
         }
 
-        /* Markdown 内容样式覆盖 */
-        .markdown-body h1 { font-size: 2em; font-weight: 700; margin-bottom: 0.5em; margin-top: 1em; }
-        .markdown-body h2 { font-size: 1.5em; font-weight: 600; margin-bottom: 0.5em; margin-top: 1em; }
-        .markdown-body p { margin-bottom: 1em; line-height: 1.7; color: #374151; }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Deep Well 游戏卡片特效 */
+        .deep-well-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .deep-well-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 筛选按钮样式 */
+        .filter-btn {
+            transition: all 0.2s;
+        }
+        .filter-btn.active {
+            background-color: #1f2937;
+            color: white;
+            border-color: #1f2937;
+        }
+
+        /* Markdown 样式 */
+        .markdown-body h1 { font-size: 2em; font-weight: 700; margin: 1em 0 0.5em; }
+        .markdown-body h2 { font-size: 1.5em; font-weight: 600; margin: 1em 0 0.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        .markdown-body p { margin-bottom: 1em; line-height: 1.75; color: #374151; }
         .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
         .markdown-body pre { background: #1f2937; color: #e5e7eb; padding: 1em; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1em; }
-        .markdown-body code { background: #e5e7eb; color: #c02a35; padding: 0.2em 0.4em; border-radius: 0.25rem; font-size: 0.9em; }
-        .markdown-body pre code { background: transparent; color: inherit; padding: 0; }
-        .markdown-body blockquote { border-left: 4px solid #e5e7eb; padding-left: 1em; color: #6b7280; font-style: italic; }
-        .markdown-body img { border-radius: 0.5rem; max-width: 100%; margin: 1em 0; }
+        .markdown-body code { background: #f3f4f6; color: #c02a35; padding: 0.2em 0.4em; border-radius: 0.25rem; font-size: 0.9em; }
+        .markdown-body img { border-radius: 0.5rem; max-width: 100%; margin: 1em auto; display: block; }
         .markdown-body a { color: #2563eb; text-decoration: underline; }
 
-        /* 动画效果 */
         .fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- 主容器 -->
     <div id="app" class="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
-        <!-- 页面 1: 个人主页概览 -->
-        <div id="home-view" class="fade-in space-y-12">
+        <!-- 主页视图 -->
+        <div id="home-view" class="fade-in space-y-10">
             
-            <!-- 个人简介模块 -->
-            <header class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-8 border-b border-gray-200 pb-10">
-                <div class="relative group">
+            <!-- 头部简介 -->
+            <header class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-8 pb-4">
+                <div class="relative group shrink-0">
                     <img id="avatar-img" src="" alt="Avatar" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg border-4 border-white">
-                    <div class="absolute inset-0 rounded-full border border-black/5"></div>
                 </div>
-                <div class="flex-1 space-y-4">
+                <div class="flex-1 space-y-4 pt-2">
                     <h1 id="profile-name" class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900"></h1>
                     <p id="profile-bio" class="text-lg text-gray-600 max-w-2xl leading-relaxed"></p>
-                    
-                    <!-- 社交链接 -->
-                    <div id="social-links" class="flex justify-center md:justify-start gap-4 pt-2">
-                        <!-- JS 动态注入 -->
-                    </div>
+                    <div id="social-links" class="flex justify-center md:justify-start gap-5 pt-1"></div>
                 </div>
             </header>
 
-            <!-- 项目/文章列表模块 -->
+            <!-- 重点推荐：Deep Well -->
+            <section id="featured-game" class="cursor-pointer" onclick="window.open('https://your-deep-well-link.com', '_blank')">
+                <div class="deep-well-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-8 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                    <div class="w-20 h-20 md:w-24 md:h-24 bg-blue-900/50 rounded-2xl flex items-center justify-center shrink-0 border border-blue-700/50 shadow-inner">
+                        <i class="fa-solid fa-gamepad text-3xl md:text-4xl text-blue-300"></i>
+                    </div>
+                    <div class="flex-1 text-center md:text-left z-10">
+                        <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+                            <h2 class="text-2xl font-bold">Deep Well</h2>
+                            <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white font-medium">New Release</span>
+                        </div>
+                        <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-4 md:mb-0">
+                            深入未知的井底，探索程序化生成的迷宫。一款基于 WebGL 的沉浸式网页游戏。
+                        </p>
+                    </div>
+                    <div class="shrink-0 z-10">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors border border-white/10">
+                            <i class="fa-solid fa-play text-white ml-1"></i>
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 文章归档时间轴 -->
             <section>
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">精选项目 & 文章</h2>
-                    <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Works</span>
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-gray-200 gap-4">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <i class="fa-solid fa-clock-rotate-left text-gray-400 mr-3 text-lg"></i>时间轴归档
+                    </h2>
+                    
+                    <!-- 分类筛选器 -->
+                    <div id="category-filters" class="flex flex-wrap gap-2">
+                        <!-- JS 动态生成 -->
+                        <button class="filter-btn active px-4 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 hover:border-gray-400 bg-white">全部</button>
+                    </div>
                 </div>
                 
-                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- 项目卡片由 JS 生成 -->
+                <!-- 时间轴列表容器 -->
+                <div id="timeline-container" class="space-y-0">
+                    <!-- 内容由 JS 生成 -->
                 </div>
             </section>
 
@@ -86,44 +131,40 @@
             </footer>
         </div>
 
-        <!-- 页面 2: 文章详情页 (默认隐藏) -->
+        <!-- 文章详情页 -->
         <div id="detail-view" class="hidden fade-in pb-20">
-            <!-- 顶部导航 -->
-            <div class="sticky top-0 bg-[#f9fafb]/95 backdrop-blur-sm z-10 py-4 mb-8 border-b border-gray-200 flex items-center justify-between">
+            <div class="sticky top-0 bg-[#f9fafb]/95 backdrop-blur-sm z-10 py-4 mb-6 border-b border-gray-200 flex items-center justify-between">
                 <button onclick="goHome()" class="group flex items-center gap-2 text-gray-600 hover:text-black transition-colors">
                     <div class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-gray-400">
                         <i class="fa-solid fa-arrow-left text-sm"></i>
                     </div>
-                    <span class="font-medium">返回主页</span>
+                    <span class="font-medium">返回列表</span>
                 </button>
-                <div class="flex gap-2">
-                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200" title="Share" onclick="copyLink()">
-                        <i class="fa-solid fa-share-nodes text-gray-600 text-sm"></i>
-                    </button>
-                </div>
+                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200" onclick="copyLink()">
+                    <i class="fa-solid fa-share-nodes text-gray-600 text-sm"></i>
+                </button>
             </div>
 
-            <!-- 文章内容 -->
-            <article class="bg-white rounded-2xl shadow-sm p-6 md:p-10 mb-10 border border-gray-100">
-                <div class="mb-8">
-                    <span id="detail-category" class="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">Category</span>
-                    <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"></h1>
-                    <div class="flex items-center gap-4 text-sm text-gray-500">
-                        <span id="detail-date"><i class="far fa-calendar-alt mr-1"></i> </span>
-                        <span><i class="far fa-clock mr-1"></i> 阅读需 5 分钟</span>
-                    </div>
-                    <img id="detail-image" src="" class="w-full h-64 md:h-96 object-cover rounded-xl mt-6 shadow-md" alt="Cover">
-                </div>
-                
-                <!-- Markdown 渲染区域 -->
-                <div id="detail-content" class="markdown-body">
-                    <!-- Markdown 编译后的 HTML 将在这里 -->
+            <article class="bg-white rounded-2xl shadow-sm p-6 md:p-10 mb-10 border border-gray-100 min-h-[300px]">
+                <div id="loading-indicator" class="hidden text-center py-20 text-gray-400">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-3"></i>
+                    <p>正在加载内容...</p>
                 </div>
 
-                <!-- 外部链接按钮 -->
-                <div class="mt-10 pt-6 border-t border-gray-100">
+                <div id="article-header">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span id="detail-category" class="text-xs font-bold tracking-wider text-white bg-blue-600 px-2 py-1 rounded uppercase"></span>
+                    </div>
+                    <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"></h1>
+                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-6">
+                        <span id="detail-date"><i class="far fa-calendar-alt mr-1"></i> </span>
+                    </div>
+                    <img id="detail-image" src="" class="w-full h-64 md:h-96 object-cover rounded-xl mb-8 shadow-md" alt="Cover">
+                </div>
+                <div id="detail-content" class="markdown-body"></div>
+                <div class="mt-10 pt-6 border-t border-gray-100" id="detail-link-container">
                     <a id="detail-link" href="#" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
-                        访问项目/页面 <i class="fa-solid fa-external-link-alt text-xs"></i>
+                        访问相关链接 <i class="fa-solid fa-external-link-alt text-xs"></i>
                     </a>
                 </div>
             </article>
@@ -133,141 +174,99 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                     <i class="fa-regular fa-comments"></i> 评论区
                 </h3>
-                
-                <!-- 评论列表 -->
-                <div id="comments-list" class="space-y-6 mb-8">
-                    <!-- 评论由 JS 生成 -->
-                    <div class="text-center text-gray-400 py-4">暂无评论，快来抢沙发吧！</div>
-                </div>
-
-                <!-- 发表评论表单 -->
+                <div id="comments-list" class="space-y-6 mb-8"></div>
                 <div class="bg-gray-50 rounded-xl p-4 md:p-6">
-                    <h4 class="text-sm font-bold text-gray-700 mb-3">发表评论</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                        <input id="comment-name" type="text" placeholder="昵称 *" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                        <input id="comment-email" type="email" placeholder="邮箱 (可选，仅用于生成头像)" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        <input id="comment-name" type="text" placeholder="昵称 *" class="w-full px-4 py-2 rounded-lg border border-gray-300 text-sm">
+                        <input id="comment-email" type="email" placeholder="邮箱" class="w-full px-4 py-2 rounded-lg border border-gray-300 text-sm">
                     </div>
-                    <textarea id="comment-body" rows="3" placeholder="写下你的想法..." class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none mb-3"></textarea>
+                    <textarea id="comment-body" rows="3" placeholder="写下你的想法..." class="w-full px-4 py-2 rounded-lg border border-gray-300 text-sm resize-none mb-3"></textarea>
                     <div class="flex justify-end">
-                        <button onclick="submitComment()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
-                            发送评论
-                        </button>
+                        <button onclick="submitComment()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">发送</button>
                     </div>
                 </div>
-                <p class="text-xs text-gray-400 mt-4 text-center">注意：本演示使用浏览器本地存储，清除缓存后评论会消失。</p>
             </section>
         </div>
-
     </div>
 
-    <!-- 逻辑脚本 -->
     <script>
-        // ================= 配置区域 (在此处修改你的信息) =================
+        // ================= 数据配置区 =================
 
         const profileData = {
-            name: "Alex Dev", // 你的名字
-            bio: "全栈开发者 / 游戏爱好者 / 开源贡献者。<br>热爱创造简洁而有用的工具，探索 Web 技术的边界。", // 你的简介
-            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 头像URL
+            name: "Alex Dev",
+            bio: "专注于 WebGL 和独立游戏开发。<br>正在构建 Deep Well 宇宙。",
+            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=800&q=80",
+            deepWellUrl: "https://your-game-url.com",
             socials: [
-                { icon: "fa-brands fa-github", url: "https://github.com/yourusername" },
+                { icon: "fa-brands fa-github", url: "https://github.com" },
                 { icon: "fa-brands fa-twitter", url: "#" },
-                { icon: "fa-solid fa-envelope", url: "mailto:your@email.com" }
+                { icon: "fa-solid fa-envelope", url: "mailto:me@example.com" }
             ]
         };
 
-        // 项目与文章数据 (Markdown 支持)
         const postsData = [
             {
                 id: 1,
-                title: "Unity 独立游戏开发日志",
-                category: "Game Dev",
-                date: "2023-10-15",
-                desc: "探索像素风 Rogue-like 游戏的程序化地图生成算法与实现细节。",
-                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
-                link: "https://github.com",
-                // 在这里写 Markdown 内容
-                content: `
-### 地图生成的挑战
-在制作这款 Rogue-like 游戏时，最大的挑战是如何保证随机生成的地图既具有**探索性**又**不会产生死路**。
-
-我们采用了 **元胞自动机 (Cellular Automata)** 算法来进行洞穴生成。
-
-#### 核心代码片段
-\`\`\`csharp
-void GenerateCaves() {
-    // 初始化网格
-    // 迭代平滑处理
-    for (int i = 0; i < 5; i++) {
-        SmoothMap();
-    }
-}
-\`\`\`
-
-#### 视觉风格
-为了配合复古风格，我们使用了 16x16 的像素图块，并实现了动态光照系统。
-                `
+                title: "Deep Well 开发日志 #1: 光影系统",
+                category: "游戏开发日志",
+                date: "2024-01-15",
+                desc: "如何在一个 2D 网页环境中实现伪 3D 的动态光影效果？技术复盘与代码分享。详细讲解了 Raymarching 算法的简化版实现。",
+                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=80",
+                file: "articles/dev-log-1.md",
+                link: "#"
             },
             {
                 id: 2,
-                title: "React 极简待办事项 App",
-                category: "Web App",
-                date: "2023-09-20",
-                desc: "一个专注于交互体验的 Todo 应用，支持拖拽排序与本地持久化存储。",
-                image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
-                link: "#",
-                content: `
-### 设计理念
-市面上的 Todo 应用太复杂了。我想做一个只有**添加**、**完成**和**删除**的应用。
-
-- **React 18**: 利用最新的并发特性。
-- **Tailwind CSS**: 快速构建响应式界面。
-- **Framer Motion**: 添加丝滑的动画效果。
-
-> "简单是终极的复杂。" - 达·芬奇
-
-你可以在这里试用 Demo 版本...
-                `
+                title: "Vue3 + Vite 项目架构实践",
+                category: "前端技术",
+                date: "2023-11-20",
+                desc: "从零搭建一个企业级的前端脚手架，包含 ESLint, Prettier 及 Git Hooks 配置。",
+                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
+                file: "articles/frontend-setup.md",
+                link: "https://github.com"
             },
             {
                 id: 3,
-                title: "摄影集：城市的角落",
-                category: "Photography",
-                date: "2023-08-05",
-                desc: "记录那些在快节奏生活中被忽略的静谧瞬间。",
-                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
-                link: "#",
-                content: `
-### 凌晨四点的街道
-这时候城市还没有醒来，只有路灯和偶尔驶过的出租车。
-
-![Street](https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)
-
-拍摄参数：
-* Camera: Sony A7III
-* Lens: 35mm f/1.4
-* ISO: 1600
-                `
+                title: "独立开发者如何寻找灵感",
+                category: "随笔",
+                date: "2023-09-05",
+                desc: "除了写代码，我们还需要看书、旅行和发呆。记录我的一次短暂逃离。",
+                image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80",
+                file: "articles/inspiration.md",
+                link: "#"
+            },
+            {
+                id: 4,
+                title: "WebGL 性能优化指南",
+                category: "前端技术",
+                date: "2023-08-12",
+                desc: "在处理大量粒子效果时，如何保持 60FPS 的流畅体验？Draw calls 的优化策略。",
+                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
+                file: "articles/webgl-opt.md",
+                link: "#"
             }
         ];
 
-        // ================= 核心逻辑 =================
+        // ================= 逻辑代码 =================
 
         let currentPostId = null;
+        let currentCategory = 'all';
 
-        // 初始化
         document.addEventListener('DOMContentLoaded', () => {
             renderProfile();
-            renderProjectsList();
+            initCategories();
+            renderTimeline();
             document.getElementById('year').textContent = new Date().getFullYear();
         });
 
-        // 渲染个人信息
         function renderProfile() {
             document.getElementById('profile-name').textContent = profileData.name;
             document.getElementById('profile-bio').innerHTML = profileData.bio;
             document.getElementById('avatar-img').src = profileData.avatar;
+            document.querySelector('#featured-game').onclick = () => window.open(profileData.deepWellUrl, '_blank');
             
             const socialContainer = document.getElementById('social-links');
+            socialContainer.innerHTML = ''; // 清空以防重复
             profileData.socials.forEach(social => {
                 const a = document.createElement('a');
                 a.href = social.url;
@@ -277,101 +276,181 @@ void GenerateCaves() {
             });
         }
 
-        // 渲染项目列表卡片
-        function renderProjectsList() {
-            const grid = document.getElementById('projects-grid');
-            grid.innerHTML = '';
-            
-            postsData.forEach(post => {
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer card-hover flex flex-col h-full";
-                card.onclick = () => openArticle(post.id);
+        // 初始化分类按钮
+        function initCategories() {
+            const categories = ['all', ...new Set(postsData.map(post => post.category))];
+            const filterContainer = document.getElementById('category-filters');
+            filterContainer.innerHTML = ''; // 清空
+
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `filter-btn px-4 py-1.5 rounded-full border border-gray-200 text-sm font-medium transition-all ${cat === 'all' ? 'active bg-gray-800 text-white border-gray-800' : 'text-gray-500 hover:border-gray-400 bg-white hover:text-gray-800'}`;
+                btn.textContent = cat === 'all' ? '全部' : cat;
                 
-                card.innerHTML = `
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm">
-                            ${post.category}
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-1">${post.title}</h3>
-                        <p class="text-gray-500 text-sm mb-4 flex-1 line-clamp-3">${post.desc}</p>
-                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-                            <span class="text-xs text-gray-400">${post.date}</span>
-                            <span class="text-blue-600 text-sm font-medium flex items-center gap-1 group">
-                                阅读更多 <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-                            </span>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
+                btn.onclick = () => {
+                    // 移除所有 active 样式
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-gray-800', 'text-white', 'border-gray-800');
+                        b.classList.add('text-gray-500', 'bg-white');
+                    });
+                    // 给当前按钮添加 active 样式
+                    btn.classList.remove('text-gray-500', 'bg-white');
+                    btn.classList.add('active', 'bg-gray-800', 'text-white', 'border-gray-800');
+                    
+                    currentCategory = cat;
+                    renderTimeline();
+                };
+                filterContainer.appendChild(btn);
             });
         }
 
-        // 打开文章详情
-        function openArticle(id) {
+        // 渲染时间轴
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+            
+            // 1. 筛选
+            let filteredPosts = currentCategory === 'all' 
+                ? postsData 
+                : postsData.filter(post => post.category === currentCategory);
+            
+            // 2. 排序 (按日期降序，最新的在上面)
+            filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (filteredPosts.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-400 py-10">该分类下暂无文章</div>`;
+                return;
+            }
+            
+            filteredPosts.forEach((post, index) => {
+                // 动画延迟
+                const delay = index * 100;
+                
+                const item = document.createElement('div');
+                // Flex 布局：左侧时间(PC)，中间线，右侧内容
+                item.className = "flex gap-x-4 md:gap-x-8 relative fade-in group";
+                item.style.animationDelay = `${delay}ms`;
+                
+                item.innerHTML = `
+                    <!-- 1. 左侧时间 (仅桌面端显示) -->
+                    <div class="hidden md:block w-32 flex-shrink-0 text-right pt-2">
+                        <span class="font-mono text-gray-500 text-sm font-medium tracking-tight">${post.date}</span>
+                    </div>
+
+                    <!-- 2. 中间轴线 -->
+                    <div class="relative flex flex-col items-center">
+                        <!-- 垂直线: 最后一个元素不显示延伸线 -->
+                        <div class="w-px h-full bg-gray-200 ${index === filteredPosts.length - 1 ? 'h-8' : ''}"></div>
+                        <!-- 圆点 -->
+                        <div class="absolute top-2.5 w-3 h-3 bg-white border-2 border-gray-300 rounded-full group-hover:border-blue-500 group-hover:bg-blue-500 transition-colors z-10 shadow-sm"></div>
+                    </div>
+
+                    <!-- 3. 右侧卡片内容 -->
+                    <div class="flex-1 pb-8 md:pb-12 min-w-0">
+                        <!-- 移动端时间显示 -->
+                        <div class="md:hidden text-xs font-mono text-gray-500 mb-2 pl-1">${post.date}</div>
+
+                        <div class="bg-white rounded-xl border border-gray-100 p-1 shadow-sm hover:shadow-lg transition-all cursor-pointer overflow-hidden flex flex-col md:flex-row gap-0 md:gap-4 group-hover:-translate-y-1" onclick="openArticle(${post.id})">
+                            <!-- 图片区域 -->
+                            <div class="w-full md:w-48 h-48 md:h-auto shrink-0 relative overflow-hidden rounded-lg md:rounded-l-lg md:rounded-r-none">
+                                <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <!-- 移动端显示的分类标签覆盖在图上 -->
+                                <div class="absolute top-2 left-2 md:hidden">
+                                    <span class="bg-black/70 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded font-medium">${post.category}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 文本区域 -->
+                            <div class="p-4 md:py-5 md:pr-6 flex-1 flex flex-col justify-center">
+                                <div class="hidden md:flex items-center gap-2 mb-2">
+                                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">${post.category}</span>
+                                </div>
+                                
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors leading-tight">${post.title}</h3>
+                                
+                                <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-3">${post.desc}</p>
+                                
+                                <div class="flex items-center text-xs text-gray-400 font-medium mt-auto">
+                                    <span class="group-hover:translate-x-1 transition-transform flex items-center">
+                                        阅读更多 <i class="fa-solid fa-arrow-right ml-1"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // 修改：使用 fetch 加载外部 md 文件
+        async function openArticle(id) {
             const post = postsData.find(p => p.id === id);
             if (!post) return;
 
             currentPostId = id;
-
-            // 填充内容
+            
+            // UI 更新
             document.getElementById('detail-title').textContent = post.title;
             document.getElementById('detail-category').textContent = post.category;
             document.getElementById('detail-date').innerHTML = `<i class="far fa-calendar-alt mr-1"></i> ${post.date}`;
             document.getElementById('detail-image').src = post.image;
             document.getElementById('detail-link').href = post.link;
             
-            // Markdown 编译
-            document.getElementById('detail-content').innerHTML = marked.parse(post.content);
-
             // 切换视图
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('detail-view').classList.remove('hidden');
-            
-            // 滚动到顶部
             window.scrollTo(0, 0);
 
-            // 加载评论
+            // 加载状态
+            const contentDiv = document.getElementById('detail-content');
+            const loader = document.getElementById('loading-indicator');
+            contentDiv.innerHTML = '';
+            loader.classList.remove('hidden');
+
+            try {
+                const response = await fetch(post.file);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const text = await response.text();
+                contentDiv.innerHTML = marked.parse(text);
+            } catch (error) {
+                console.error('Fetching markdown failed:', error);
+                contentDiv.innerHTML = `
+                    <div class="p-4 bg-red-50 text-red-600 rounded-lg text-center">
+                        <p class="font-bold">无法加载文章内容</p>
+                        <p class="text-sm mt-1">请检查文件路径 '${post.file}' 是否正确，或是否因跨域(CORS)被浏览器拦截。</p>
+                        <p class="text-xs mt-2 text-gray-500">提示：本地预览请使用 Live Server。</p>
+                    </div>
+                `;
+            } finally {
+                loader.classList.add('hidden');
+            }
+
             loadComments(id);
         }
 
-        // 返回主页
         function goHome() {
             document.getElementById('detail-view').classList.add('hidden');
             document.getElementById('home-view').classList.remove('hidden');
             window.scrollTo(0, 0);
-            currentPostId = null;
         }
 
         function copyLink() {
-            // 简单模拟复制功能
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                alert('链接已复制到剪贴板');
-            });
+            navigator.clipboard.writeText(window.location.href);
+            alert('地址已复制');
         }
 
-        // ================= 评论系统 (LocalStorage 实现) =================
-        // 注意：这是前端模拟。如果需要真正的后端，建议接入 Giscus。
-
-        function getStorageKey(postId) {
-            return `comments_post_${postId}`;
-        }
+        // ================= 评论系统 (LocalStorage) =================
+        function getStorageKey(postId) { return `comments_post_${postId}`; }
 
         function loadComments(postId) {
             const list = document.getElementById('comments-list');
             const comments = JSON.parse(localStorage.getItem(getStorageKey(postId)) || '[]');
-            
-            list.innerHTML = '';
-
-            if (comments.length === 0) {
-                list.innerHTML = `<div class="text-center text-gray-400 py-4 bg-gray-50 rounded-lg">还没有评论，来做第一个发言的人吧！</div>`;
-                return;
-            }
+            list.innerHTML = comments.length === 0 
+                ? `<div class="text-center text-gray-400 py-4 bg-gray-50 rounded-lg">还没有评论，来做第一个发言的人吧！</div>`
+                : '';
 
             comments.forEach(c => {
-                // 生成随机头像背景色
                 const colors = ['bg-red-100 text-red-600', 'bg-blue-100 text-blue-600', 'bg-green-100 text-green-600', 'bg-yellow-100 text-yellow-600'];
                 const colorClass = colors[Math.floor(Math.random() * colors.length)];
                 
@@ -394,38 +473,26 @@ void GenerateCaves() {
         }
 
         function submitComment() {
-            const nameInput = document.getElementById('comment-name');
-            const emailInput = document.getElementById('comment-email');
-            const bodyInput = document.getElementById('comment-body');
-
-            const name = nameInput.value.trim();
-            const body = bodyInput.value.trim();
-
-            if (!name || !body) {
-                alert('请填写昵称和评论内容');
-                return;
-            }
+            const name = document.getElementById('comment-name').value.trim();
+            const body = document.getElementById('comment-body').value.trim();
+            if (!name || !body) return alert('请填写完整信息');
 
             const newComment = {
                 id: Date.now(),
-                name: name,
-                email: emailInput.value.trim(),
-                body: body,
+                name, 
+                body,
                 date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
             };
 
             const key = getStorageKey(currentPostId);
             const comments = JSON.parse(localStorage.getItem(key) || '[]');
-            comments.unshift(newComment); // 新评论在最前
+            comments.unshift(newComment);
             localStorage.setItem(key, JSON.stringify(comments));
 
-            // 清空表单并重新加载
-            nameInput.value = '';
-            emailInput.value = '';
-            bodyInput.value = '';
+            document.getElementById('comment-name').value = '';
+            document.getElementById('comment-body').value = '';
             loadComments(currentPostId);
         }
-
     </script>
 </body>
 </html>
