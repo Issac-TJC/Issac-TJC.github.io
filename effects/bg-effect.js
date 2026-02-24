@@ -26,13 +26,7 @@
     canvas.height = height;
     gl.viewport(0, 0, width, height);
 
-    const mouse = { x: width / 2, y: height / 2 };
-    const targetMouse = { x: width / 2, y: height / 2 };
-
-    window.addEventListener('mousemove', (e) => {
-        targetMouse.x = e.clientX;
-        targetMouse.y = height - e.clientY; // Flip Y for WebGL
-    });
+    // Mouse tracking removed
 
     window.addEventListener('resize', () => {
         width = document.documentElement.clientWidth;
@@ -59,7 +53,7 @@
 
     uniform vec2 u_resolution;
     uniform float u_time;
-    uniform vec2 u_mouse;
+    uniform float u_timeScale;
     uniform float u_pixelSize;
 
     // --- Noise Functions ---
@@ -89,7 +83,7 @@
         float amp = 0.5;
         for (int i = 0; i < 5; i++) {
             f += amp * valueNoise(p);
-            p = p * 2.0 + vec2(12.4, 5.1) * u_time * 0.1; 
+            p = p * 2.0 + vec2(12.4, 5.1) * (u_time * u_timeScale) * 0.1; 
             amp *= 0.5;
         }
         return f;
@@ -99,8 +93,8 @@
     float smoke(vec2 uv) {
         vec2 q = uv * 3.0;
         // make it crawl and flow
-        q.y -= u_time * 0.2; 
-        q.x += sin(u_time * 0.1) * 0.5;
+        q.y -= (u_time * u_timeScale) * 0.2; 
+        q.x += sin((u_time * u_timeScale) * 0.1) * 0.5;
         
         float n = fbm(q);
         // Add more detail
@@ -114,7 +108,7 @@
     // Pseudo Particle layer
     float particles(vec2 uv) {
         vec2 p = uv * 10.0;
-        p.y += u_time * 0.5;
+        p.y += (u_time * u_timeScale) * 0.5;
         vec2 i = floor(p);
         vec2 f = fract(p);
         vec3 h = hash3(i);
@@ -132,58 +126,21 @@
 
     vec3 render(vec2 uv, vec2 screen_uv) {
         // Base dark bluish color
-        vec3 bgColor = vec3(0.02, 0.02, 0.05);
-        vec3 smokeColor = vec3(0.05, 0.08, 0.15);
+        vec3 bgColor = vec3(0.02, 0.02, 0.04);
+        vec3 smokeColor = vec3(0.1, 0.15, 0.25);
         
-        // Smoke layer
+        // Smoke layer (fluid motion)
         float s = smoke(uv);
+        
+        // Mix colors based on smoke density directly
         vec3 finalColor = mix(bgColor, smokeColor, s);
-
-        // Light setup
-        vec2 lightPos = u_mouse / u_resolution; // Normalized mouse
-        // Correct aspect ratio
-        vec2 aspectLight = lightPos;
-        aspectLight.y /= (u_resolution.x / u_resolution.y);
-        vec2 aspectUv = screen_uv;
-        aspectUv.y /= (u_resolution.x / u_resolution.y);
-        
-        // Distance to light
-        float distToLight = distance(aspectUv, aspectLight);
-        
-        // Base Light Attenuation
-        float lightIntensity = smoothstep(0.8, 0.0, distToLight);
-        // Add pulsating effect
-        lightIntensity *= 1.0 + 0.1 * sin(u_time * 3.0);
-        
-        // Light color (warm slightly green-ish like Animal Well or just warm)
-        vec3 lightColor = vec3(0.2, 0.8, 0.6); // Cyan-ish/Green-ish
-        
-        // Occlusion
-        // We pretend the smoke blocks light. Dark smoke = blocks, light smoke = passes.
-        // Or actually, let's treat the smoke 'value' as density.
-        float density = s;
-        // Simple 2D raymarching towards light to calculate occlusion (volumetric lighting approx)
-        int steps = 15;
-        float occlusion = 0.0;
-        vec2 dir = (lightPos - screen_uv) / float(steps);
-        vec2 rayPos = screen_uv;
-        for(int i = 0; i < steps; i++) {
-            rayPos += dir;
-            occlusion += smoke(rayPos);
-        }
-        occlusion /= float(steps);
-        // If density between pixel and light is high, less light arrives
-        float shadow = smoothstep(0.6, 0.0, occlusion);
-        
-        vec3 litColor = lightColor * lightIntensity * shadow;
-        
-        // Add light to the surface
-        finalColor += litColor * (1.0 - s * 0.5); // smoke gets lit
         
         // Particles
         float p = particles(uv);
-        // Particles glow when hit by light
-        finalColor += p * lightColor * (lightIntensity * 2.0 + 0.2); // slight glow even without light
+        
+        // Let particles be bright against the smoke
+        vec3 particleColor = vec3(0.3, 0.7, 0.9);
+        finalColor += p * particleColor * 0.8;
         
         return finalColor;
     }
@@ -224,7 +181,7 @@
         color *= vignette;
         
         // Subtle film grain
-        float noise = hash3(v_uv * 1000.0 + u_time).x;
+        float noise = hash3(v_uv * 1000.0 + (u_time * u_timeScale)).x;
         color += (noise - 0.5) * 0.03;
 
         outColor = vec4(color, 1.0);
@@ -281,19 +238,15 @@
     // Uniforms
     const uResolutionLoc = gl.getUniformLocation(program, "u_resolution");
     const uTimeLoc = gl.getUniformLocation(program, "u_time");
-    const uMouseLoc = gl.getUniformLocation(program, "u_mouse");
+    const uTimeScaleLoc = gl.getUniformLocation(program, "u_timeScale");
     const uPixelSizeLoc = gl.getUniformLocation(program, "u_pixelSize");
 
     let startTime = performance.now();
 
     function renderLoop() {
-        // Smooth mouse
-        mouse.x += (targetMouse.x - mouse.x) * 0.1;
-        mouse.y += (targetMouse.y - mouse.y) * 0.1;
-
         gl.uniform2f(uResolutionLoc, width, height);
         gl.uniform1f(uTimeLoc, (performance.now() - startTime) / 1000.0);
-        gl.uniform2f(uMouseLoc, mouse.x, mouse.y);
+        gl.uniform1f(uTimeScaleLoc, 0.2); // Slower smoke speed
         gl.uniform1f(uPixelSizeLoc, 4.0); // Adjust this value to scale pixel size
 
         gl.drawArrays(gl.TRIANGLES, 0, 6);
