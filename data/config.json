@@ -1,0 +1,38 @@
+{
+  "profile": {
+    "name": "Issac-TJC",
+    "bio": "抱歉耽误您的时间blablabla...",
+    "avatar": "https://raw.githubusercontent.com/Issac-TJC/blog-pic/refs/heads/master/image-20240412115056757.png",
+    "deepWellUrl": "https://issac-tjc.github.io/deep-well/"
+  },
+  "effects": [
+    "effects/bg-effect.js"
+  ],
+  "socials": [
+    {
+      "icon": "fa-brands fa-github",
+      "url": "https://github.com/Issac-TJC"
+    },
+    {
+      "icon": "fa-brands fa-twitter",
+      "url": "#"
+    },
+    {
+      "icon": "fa-solid fa-envelope",
+      "url": "mailto:me@example.com"
+    }
+  ],
+  "giscus": {
+    "repo": "Issac-TJC/Issac-TJC.github.io",
+    "repoId": "R_kgXXXXXXXX",
+    "category": "Announcements",
+    "categoryId": "DIC_kwXXXXXXXX",
+    "mapping": "pathname",
+    "strict": "0",
+    "reactionsEnabled": "1",
+    "emitMetadata": "0",
+    "inputPosition": "top",
+    "theme": "light",
+    "lang": "zh-CN"
+  }
+}

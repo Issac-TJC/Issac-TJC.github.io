@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,70 +11,23 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
-        
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f9fafb;
-            color: #1f2937;
-        }
 
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Deep Well 游戏卡片特效 */
-        .deep-well-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .deep-well-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 筛选按钮样式 */
-        .filter-btn {
-            transition: all 0.2s;
-        }
-        .filter-btn.active {
-            background-color: #1f2937;
-            color: white;
-            border-color: #1f2937;
-        }
-
-        /* Markdown 样式 */
-        .markdown-body h1 { font-size: 2em; font-weight: 700; margin: 1em 0 0.5em; }
-        .markdown-body h2 { font-size: 1.5em; font-weight: 600; margin: 1em 0 0.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
-        .markdown-body p { margin-bottom: 1em; line-height: 1.75; color: #374151; }
-        .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
-        .markdown-body pre { background: #1f2937; color: #e5e7eb; padding: 1em; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1em; }
-        .markdown-body code { background: #f3f4f6; color: #c02a35; padding: 0.2em 0.4em; border-radius: 0.25rem; font-size: 0.9em; }
-        .markdown-body img { border-radius: 0.5rem; max-width: 100%; margin: 1em auto; display: block; }
-        .markdown-body a { color: #2563eb; text-decoration: underline; }
-
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="antialiased min-h-screen flex flex-col">
 
     <div id="app" class="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        
+
         <!-- 主页视图 -->
         <div id="home-view" class="fade-in space-y-10">
-            
+
             <!-- 头部简介 -->
             <header class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-8 pb-4">
                 <div class="relative group shrink-0">
-                    <img id="avatar-img" src="" alt="Avatar" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg border-4 border-white">
+                    <img id="avatar-img" src="" alt="Avatar"
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg border-4 border-white">
                 </div>
                 <div class="flex-1 space-y-4 pt-2">
                     <h1 id="profile-name" class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900"></h1>
@@ -83,23 +37,30 @@
             </header>
 
             <!-- 重点推荐：Deep Well -->
-            <section id="featured-game" class="cursor-pointer" onclick="window.open('https://your-deep-well-link.com', '_blank')">
-                <div class="deep-well-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-8 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                    <div class="w-20 h-20 md:w-24 md:h-24 bg-blue-900/50 rounded-2xl flex items-center justify-center shrink-0 border border-blue-700/50 shadow-inner">
+            <section id="featured-game" class="cursor-pointer"
+                onclick="window.open('https://your-deep-well-link.com', '_blank')">
+                <div
+                    class="deep-well-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-8 relative overflow-hidden group">
+                    <div
+                        class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity">
+                    </div>
+                    <div
+                        class="w-20 h-20 md:w-24 md:h-24 bg-blue-900/50 rounded-2xl flex items-center justify-center shrink-0 border border-blue-700/50 shadow-inner">
                         <i class="fa-solid fa-gamepad text-3xl md:text-4xl text-blue-300"></i>
                     </div>
                     <div class="flex-1 text-center md:text-left z-10">
                         <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
                             <h2 class="text-2xl font-bold">Deep Well</h2>
-                            <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white font-medium">New Release</span>
+                            <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white font-medium">New
+                                Release</span>
                         </div>
                         <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-4 md:mb-0">
                             深入未知的井底，探索程序化生成的迷宫。一款基于 WebGL 的沉浸式网页游戏。
                         </p>
                     </div>
                     <div class="shrink-0 z-10">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors border border-white/10">
+                        <span
+                            class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors border border-white/10">
                             <i class="fa-solid fa-play text-white ml-1"></i>
                         </span>
                     </div>
@@ -108,18 +69,20 @@
 
             <!-- 文章归档时间轴 -->
             <section>
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-gray-200 gap-4">
+                <div
+                    class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-gray-200 gap-4">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
                         <i class="fa-solid fa-clock-rotate-left text-gray-400 mr-3 text-lg"></i>时间轴归档
                     </h2>
-                    
+
                     <!-- 分类筛选器 -->
                     <div id="category-filters" class="flex flex-wrap gap-2">
                         <!-- JS 动态生成 -->
-                        <button class="filter-btn active px-4 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 hover:border-gray-400 bg-white">全部</button>
+                        <button
+                            class="filter-btn active px-4 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 hover:border-gray-400 bg-white">全部</button>
                     </div>
                 </div>
-                
+
                 <!-- 时间轴列表容器 -->
                 <div id="timeline-container" class="space-y-0">
                     <!-- 内容由 JS 生成 -->
@@ -133,14 +96,18 @@
 
         <!-- 文章详情页 -->
         <div id="detail-view" class="hidden fade-in pb-20">
-            <div class="sticky top-0 bg-[#f9fafb]/95 backdrop-blur-sm z-10 py-4 mb-6 border-b border-gray-200 flex items-center justify-between">
-                <button onclick="goHome()" class="group flex items-center gap-2 text-gray-600 hover:text-black transition-colors">
-                    <div class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-gray-400">
+            <div
+                class="sticky top-0 bg-[#f9fafb]/95 backdrop-blur-sm z-10 py-4 mb-6 border-b border-gray-200 flex items-center justify-between">
+                <button onclick="goHome()"
+                    class="group flex items-center gap-2 text-gray-600 hover:text-black transition-colors">
+                    <div
+                        class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-gray-400">
                         <i class="fa-solid fa-arrow-left text-sm"></i>
                     </div>
                     <span class="font-medium">返回列表</span>
                 </button>
-                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200" onclick="copyLink()">
+                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
+                    onclick="copyLink()">
                     <i class="fa-solid fa-share-nodes text-gray-600 text-sm"></i>
                 </button>
             </div>
@@ -153,17 +120,20 @@
 
                 <div id="article-header">
                     <div class="flex items-center gap-3 mb-4">
-                        <span id="detail-category" class="text-xs font-bold tracking-wider text-white bg-blue-600 px-2 py-1 rounded uppercase"></span>
+                        <span id="detail-category"
+                            class="text-xs font-bold tracking-wider text-white bg-blue-600 px-2 py-1 rounded uppercase"></span>
                     </div>
                     <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"></h1>
                     <div class="flex items-center gap-4 text-sm text-gray-500 mb-6">
                         <span id="detail-date"><i class="far fa-calendar-alt mr-1"></i> </span>
                     </div>
-                    <img id="detail-image" src="" class="w-full h-64 md:h-96 object-cover rounded-xl mb-8 shadow-md" alt="Cover">
+                    <img id="detail-image" src="" class="w-full h-64 md:h-96 object-cover rounded-xl mb-8 shadow-md"
+                        alt="Cover">
                 </div>
                 <div id="detail-content" class="markdown-body"></div>
                 <div class="mt-10 pt-6 border-t border-gray-100" id="detail-link-container">
-                    <a id="detail-link" href="#" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
+                    <a id="detail-link" href="#" target="_blank"
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
                         访问相关链接 <i class="fa-solid fa-external-link-alt text-xs"></i>
                     </a>
                 </div>
@@ -174,325 +144,14 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                     <i class="fa-regular fa-comments"></i> 评论区
                 </h3>
-                <div id="comments-list" class="space-y-6 mb-8"></div>
-                <div class="bg-gray-50 rounded-xl p-4 md:p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                        <input id="comment-name" type="text" placeholder="昵称 *" class="w-full px-4 py-2 rounded-lg border border-gray-300 text-sm">
-                        <input id="comment-email" type="email" placeholder="邮箱" class="w-full px-4 py-2 rounded-lg border border-gray-300 text-sm">
-                    </div>
-                    <textarea id="comment-body" rows="3" placeholder="写下你的想法..." class="w-full px-4 py-2 rounded-lg border border-gray-300 text-sm resize-none mb-3"></textarea>
-                    <div class="flex justify-end">
-                        <button onclick="submitComment()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">发送</button>
-                    </div>
+                <div id="comments-list" class="min-h-[150px]">
+                    <!-- Giscus 评论组件将通过 js/app.js 自动加载到这里 -->
                 </div>
             </section>
         </div>
     </div>
 
-    <script>
-        // ================= 数据配置区 =================
-
-        const profileData = {
-            name: "Issac-TJC",
-            bio: "抱歉耽误您的时间blablabla...",
-            avatar: "https://raw.githubusercontent.com/Issac-TJC/blog-pic/refs/heads/master/image-20240412115056757.png",
-            deepWellUrl: "https://issac-tjc.github.io/deep-well/",
-            socials: [
-                { icon: "fa-brands fa-github", url: "https://github.com" },
-                { icon: "fa-brands fa-twitter", url: "#" },
-                { icon: "fa-solid fa-envelope", url: "mailto:me@example.com" }
-            ]
-        };
-
-        const postsData = [
-            {
-                id: 1,
-                title: "Deep Well 开发日志 #1: 光影系统",
-                category: "游戏开发日志",
-                date: "2024-01-15",
-                desc: "如何在一个 2D 网页环境中实现伪 3D 的动态光影效果？技术复盘与代码分享。详细讲解了 Raymarching 算法的简化版实现。",
-                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=80",
-                file: "articles/dev-log-1.md",
-                link: "#"
-            },
-            {
-                id: 2,
-                title: "Vue3 + Vite 项目架构实践",
-                category: "前端技术",
-                date: "2023-11-20",
-                desc: "从零搭建一个企业级的前端脚手架，包含 ESLint, Prettier 及 Git Hooks 配置。",
-                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
-                file: "articles/frontend-setup.md",
-                link: "https://github.com"
-            },
-            {
-                id: 3,
-                title: "独立开发者如何寻找灵感",
-                category: "随笔",
-                date: "2023-09-05",
-                desc: "除了写代码，我们还需要看书、旅行和发呆。记录我的一次短暂逃离。",
-                image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80",
-                file: "articles/inspiration.md",
-                link: "#"
-            },
-            {
-                id: 4,
-                title: "WebGL 性能优化指南",
-                category: "前端技术",
-                date: "2023-08-12",
-                desc: "在处理大量粒子效果时，如何保持 60FPS 的流畅体验？Draw calls 的优化策略。",
-                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
-                file: "articles/webgl-opt.md",
-                link: "#"
-            }
-        ];
-
-        // ================= 逻辑代码 =================
-
-        let currentPostId = null;
-        let currentCategory = 'all';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProfile();
-            initCategories();
-            renderTimeline();
-            document.getElementById('year').textContent = new Date().getFullYear();
-        });
-
-        function renderProfile() {
-            document.getElementById('profile-name').textContent = profileData.name;
-            document.getElementById('profile-bio').innerHTML = profileData.bio;
-            document.getElementById('avatar-img').src = profileData.avatar;
-            document.querySelector('#featured-game').onclick = () => window.open(profileData.deepWellUrl, '_blank');
-            
-            const socialContainer = document.getElementById('social-links');
-            socialContainer.innerHTML = ''; // 清空以防重复
-            profileData.socials.forEach(social => {
-                const a = document.createElement('a');
-                a.href = social.url;
-                a.className = "text-gray-400 hover:text-gray-900 transition-colors text-2xl";
-                a.innerHTML = `<i class="${social.icon}"></i>`;
-                socialContainer.appendChild(a);
-            });
-        }
-
-        // 初始化分类按钮
-        function initCategories() {
-            const categories = ['all', ...new Set(postsData.map(post => post.category))];
-            const filterContainer = document.getElementById('category-filters');
-            filterContainer.innerHTML = ''; // 清空
-
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = `filter-btn px-4 py-1.5 rounded-full border border-gray-200 text-sm font-medium transition-all ${cat === 'all' ? 'active bg-gray-800 text-white border-gray-800' : 'text-gray-500 hover:border-gray-400 bg-white hover:text-gray-800'}`;
-                btn.textContent = cat === 'all' ? '全部' : cat;
-                
-                btn.onclick = () => {
-                    // 移除所有 active 样式
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('active', 'bg-gray-800', 'text-white', 'border-gray-800');
-                        b.classList.add('text-gray-500', 'bg-white');
-                    });
-                    // 给当前按钮添加 active 样式
-                    btn.classList.remove('text-gray-500', 'bg-white');
-                    btn.classList.add('active', 'bg-gray-800', 'text-white', 'border-gray-800');
-                    
-                    currentCategory = cat;
-                    renderTimeline();
-                };
-                filterContainer.appendChild(btn);
-            });
-        }
-
-        // 渲染时间轴
-        function renderTimeline() {
-            const container = document.getElementById('timeline-container');
-            container.innerHTML = '';
-            
-            // 1. 筛选
-            let filteredPosts = currentCategory === 'all' 
-                ? postsData 
-                : postsData.filter(post => post.category === currentCategory);
-            
-            // 2. 排序 (按日期降序，最新的在上面)
-            filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            if (filteredPosts.length === 0) {
-                container.innerHTML = `<div class="text-center text-gray-400 py-10">该分类下暂无文章</div>`;
-                return;
-            }
-            
-            filteredPosts.forEach((post, index) => {
-                // 动画延迟
-                const delay = index * 100;
-                
-                const item = document.createElement('div');
-                // Flex 布局：左侧时间(PC)，中间线，右侧内容
-                item.className = "flex gap-x-4 md:gap-x-8 relative fade-in group";
-                item.style.animationDelay = `${delay}ms`;
-                
-                item.innerHTML = `
-                    <!-- 1. 左侧时间 (仅桌面端显示) -->
-                    <div class="hidden md:block w-32 flex-shrink-0 text-right pt-2">
-                        <span class="font-mono text-gray-500 text-sm font-medium tracking-tight">${post.date}</span>
-                    </div>
-
-                    <!-- 2. 中间轴线 -->
-                    <div class="relative flex flex-col items-center">
-                        <!-- 垂直线: 最后一个元素不显示延伸线 -->
-                        <div class="w-px h-full bg-gray-200 ${index === filteredPosts.length - 1 ? 'h-8' : ''}"></div>
-                        <!-- 圆点 -->
-                        <div class="absolute top-2.5 w-3 h-3 bg-white border-2 border-gray-300 rounded-full group-hover:border-blue-500 group-hover:bg-blue-500 transition-colors z-10 shadow-sm"></div>
-                    </div>
-
-                    <!-- 3. 右侧卡片内容 -->
-                    <div class="flex-1 pb-8 md:pb-12 min-w-0">
-                        <!-- 移动端时间显示 -->
-                        <div class="md:hidden text-xs font-mono text-gray-500 mb-2 pl-1">${post.date}</div>
-
-                        <div class="bg-white rounded-xl border border-gray-100 p-1 shadow-sm hover:shadow-lg transition-all cursor-pointer overflow-hidden flex flex-col md:flex-row gap-0 md:gap-4 group-hover:-translate-y-1" onclick="openArticle(${post.id})">
-                            <!-- 图片区域 -->
-                            <div class="w-full md:w-48 h-48 md:h-auto shrink-0 relative overflow-hidden rounded-lg md:rounded-l-lg md:rounded-r-none">
-                                <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                                <!-- 移动端显示的分类标签覆盖在图上 -->
-                                <div class="absolute top-2 left-2 md:hidden">
-                                    <span class="bg-black/70 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded font-medium">${post.category}</span>
-                                </div>
-                            </div>
-                            
-                            <!-- 文本区域 -->
-                            <div class="p-4 md:py-5 md:pr-6 flex-1 flex flex-col justify-center">
-                                <div class="hidden md:flex items-center gap-2 mb-2">
-                                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">${post.category}</span>
-                                </div>
-                                
-                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors leading-tight">${post.title}</h3>
-                                
-                                <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-3">${post.desc}</p>
-                                
-                                <div class="flex items-center text-xs text-gray-400 font-medium mt-auto">
-                                    <span class="group-hover:translate-x-1 transition-transform flex items-center">
-                                        阅读更多 <i class="fa-solid fa-arrow-right ml-1"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        // 修改：使用 fetch 加载外部 md 文件
-        async function openArticle(id) {
-            const post = postsData.find(p => p.id === id);
-            if (!post) return;
-
-            currentPostId = id;
-            
-            // UI 更新
-            document.getElementById('detail-title').textContent = post.title;
-            document.getElementById('detail-category').textContent = post.category;
-            document.getElementById('detail-date').innerHTML = `<i class="far fa-calendar-alt mr-1"></i> ${post.date}`;
-            document.getElementById('detail-image').src = post.image;
-            document.getElementById('detail-link').href = post.link;
-            
-            // 切换视图
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('detail-view').classList.remove('hidden');
-            window.scrollTo(0, 0);
-
-            // 加载状态
-            const contentDiv = document.getElementById('detail-content');
-            const loader = document.getElementById('loading-indicator');
-            contentDiv.innerHTML = '';
-            loader.classList.remove('hidden');
-
-            try {
-                const response = await fetch(post.file);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const text = await response.text();
-                contentDiv.innerHTML = marked.parse(text);
-            } catch (error) {
-                console.error('Fetching markdown failed:', error);
-                contentDiv.innerHTML = `
-                    <div class="p-4 bg-red-50 text-red-600 rounded-lg text-center">
-                        <p class="font-bold">无法加载文章内容</p>
-                        <p class="text-sm mt-1">请检查文件路径 '${post.file}' 是否正确，或是否因跨域(CORS)被浏览器拦截。</p>
-                        <p class="text-xs mt-2 text-gray-500">提示：本地预览请使用 Live Server。</p>
-                    </div>
-                `;
-            } finally {
-                loader.classList.add('hidden');
-            }
-
-            loadComments(id);
-        }
-
-        function goHome() {
-            document.getElementById('detail-view').classList.add('hidden');
-            document.getElementById('home-view').classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
-            alert('地址已复制');
-        }
-
-        // ================= 评论系统 (LocalStorage) =================
-        function getStorageKey(postId) { return `comments_post_${postId}`; }
-
-        function loadComments(postId) {
-            const list = document.getElementById('comments-list');
-            const comments = JSON.parse(localStorage.getItem(getStorageKey(postId)) || '[]');
-            list.innerHTML = comments.length === 0 
-                ? `<div class="text-center text-gray-400 py-4 bg-gray-50 rounded-lg">还没有评论，来做第一个发言的人吧！</div>`
-                : '';
-
-            comments.forEach(c => {
-                const colors = ['bg-red-100 text-red-600', 'bg-blue-100 text-blue-600', 'bg-green-100 text-green-600', 'bg-yellow-100 text-yellow-600'];
-                const colorClass = colors[Math.floor(Math.random() * colors.length)];
-                
-                const div = document.createElement('div');
-                div.className = "flex gap-4 fade-in";
-                div.innerHTML = `
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full ${colorClass} flex items-center justify-center font-bold text-sm">
-                        ${c.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center justify-between mb-1">
-                            <h5 class="font-bold text-gray-900 text-sm">${c.name}</h5>
-                            <span class="text-xs text-gray-400">${c.date}</span>
-                        </div>
-                        <p class="text-gray-600 text-sm leading-relaxed bg-gray-50 p-3 rounded-br-xl rounded-bl-xl rounded-tr-xl">${c.body}</p>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function submitComment() {
-            const name = document.getElementById('comment-name').value.trim();
-            const body = document.getElementById('comment-body').value.trim();
-            if (!name || !body) return alert('请填写完整信息');
-
-            const newComment = {
-                id: Date.now(),
-                name, 
-                body,
-                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-            };
-
-            const key = getStorageKey(currentPostId);
-            const comments = JSON.parse(localStorage.getItem(key) || '[]');
-            comments.unshift(newComment);
-            localStorage.setItem(key, JSON.stringify(comments));
-
-            document.getElementById('comment-name').value = '';
-            document.getElementById('comment-body').value = '';
-            loadComments(currentPostId);
-        }
-    </script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>
